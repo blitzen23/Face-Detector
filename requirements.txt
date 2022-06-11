@@ -1,7 +1,5 @@
-import streamlit as st
-import cv2
-import os
-import sys
-import numpy as np
-
-from PIL import Image
+streamlit
+opencv-contrib-python-headless
+numpy
+pillow
+keyboard

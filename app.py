@@ -3,6 +3,7 @@ import cv2
 import os
 import sys
 import numpy as np
+import keyboard
 
 from PIL import Image
 
@@ -13,12 +14,11 @@ faceCascade = cv2.CascadeClassifier(cascPath)
 st.title('Face Detector')
 
 videoBtn = st.button('Video')
-
 if videoBtn:   
     stopBtn = st.button('Stop')
     video = st.empty()
     facesFound = st.empty()
-    webcam = cv2.VideoCapture(0)
+    webcam = cv2.VideoCapture(0, cv2.CAP_ANY)
     while True:
         _, image = webcam.read()
 
@@ -35,12 +35,18 @@ if videoBtn:
         video.image(image)
         facesFound.text("%d faces found or detected!" %(len(faces)))
 
+        if keyboard.is_pressed('q'):
+            video.image(image)
+            facesFound.text("%d faces found or detected!" %(len(faces)))
+            break
+
     webcam.release()
     cv2.destroyAllWindows()
 
 uploadedFile = st.file_uploader('Choose an image', type=['png', 'jpg', 'jpeg', 'webp'])
 if uploadedFile is not None:
     image = Image.open(uploadedFile)
+    image = image.convert('RGB')
     image = image.save('img.jpg')
     image = cv2.imread("img.jpg")
 
